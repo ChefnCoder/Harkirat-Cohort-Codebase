@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>fetch-API Learning frontend part</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <style>
+    button{
+      color: white;
+      background-color: black;
+      height: 40px;
+      width: 100px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+  </div>
+  <button onclick="getAnimals()">get animals</button>
+  <script>
+    async function getAnimals() {
+      const response = await fetch("https://fakerapi.it/api/v1/persons")
+      const jsonData = await response.json();
+      document.getElementById("container").innerHTML = JSON.stringify(jsonData.data);
+    }
+    // function getAnimals() {
+    // console.log(fetch("https://fakerapi.it/api/v1/persons"))
+    // }
+    /*
+      function getAnimalData() {
+      //By default, fetch() makes a GET request to the specified URL.
+      fetch('https://fakerapi.it/api/v1/persons')
+      .then(function (response) {
+	    response.json().then(function (finalData) {
+	        console.log(finalData);
+	    });
+    });
+}
+    */
+  </script>
+</body>
+
+</html>
