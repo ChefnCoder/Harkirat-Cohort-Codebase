@@ -1,0 +1,41 @@
+Authentication ->
+need for it? To avoid sending username pass at every request, authentication is done and
+a token is given back to local system.
+------------------------------------------------------------------------------------------------------
+Few concepts to know ->
+1. hashing : 
+ 1 way
+ username pass is sent to be server which hash it and sent to db to hold, cant be dehashed back.
+
+2. encryption : 
+ 2 way
+ username pass is sent to be server which encrypt it and send to db , and if we have the required pass
+ we can decrypt it back to passord.
+
+3. jwt -> json web token
+ json object is converted to jwt using a key. now if u have the key u can verify it and also convert 
+ it back to object.
+
+Visiblity ->
+Hashed data hides the original data completely.
+Encrypted data reveals the existence of data but hides its contents without the decryption key.
+both hash data and encrypted data are visible but uska karega kya bro.
+
+jwt are completely visible and used by anyone, key used in jwt are only for verifying it.
+
+------------------------------------------------------------------------------------------------------------
+Now understand the process ->
+
+browser send username pass to be server
+server hashes the pass and send username and hasked pass to db
+db returns a token to be server 
+server returns a jwt to browser to hold in its local storage
+
+now that jwt is the symbol of that usernam pass,
+everytime u send a req, header has that jwt with it, be server gets both...
+be gets that it is me sending it a request and responds back to me
+
+now why not encryption here?
+cause it saves db call evrytime to match encrypted pass.
+
+------------------------------------------------------------------------------------------------------------

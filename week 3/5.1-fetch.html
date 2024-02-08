@@ -1,0 +1,43 @@
+<!-- earlier fetch code had a problem with async js part, so we used async await here
+now fetch is a async call -> it returns a file -> we know it is a json file ->
+so using response.json(); we parse the file as json object and got 10 objects holding people data in them.
+now we need to display content of js object, for that JSON.stringify(jsondata.data) 
+
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>fetch-API Learning frontend part</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <style>
+  </style>
+</head>
+
+<body>
+  <div id="container">
+  </div>
+  <button onclick="getAnimals()">get animals</button>
+  <script>
+    async function getAnimals() {
+      const response = await fetch("https://fakerapi.it/api/v1/persons")
+      const jsonData = await response.json();
+      document.getElementById("container").innerHTML = JSON.stringify(jsonData.data);
+    }
+    /*
+    Promise -> 
+    function getAnimalData() {
+        fetch('https://fakerapi.it/api/v1/persons').then(function (response) {
+	        response.json().then(function (finalData) {
+	            console.log(finalData);//doing this makes data gets printed on console
+	        });
+        });
+    }
+    */
+  </script>
+</body>
+
+</html>
