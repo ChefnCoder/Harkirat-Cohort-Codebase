@@ -3,8 +3,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
-const jwtPassword = "123456"; //password for accessing 
-
+const jwtPassword = "123456"
 //initializes an Express application and configures it to use the express.json() middleware.
 //This middleware is used to parse JSON bodies in incoming requests.
 const app = express();
@@ -30,11 +29,11 @@ app.post("/signup", async function (req, res) {
     const password = req.body.password;  
 
     //step 2 , checked whether username already exists
-    const existingUser = await UserProfileSchema.findOne({email:email});
+    const checkUserExists = await UserProfileSchema.findOne({email:email});
     
     //if no err till now then try this code -> 
     // output when user exists
-    if (existingUser){
+    if (checkUserExists){
         return res.status(400).json({
             "msg" : "username already exists",
         });
@@ -62,7 +61,50 @@ app.post("/signup", async function (req, res) {
     
 });
 
-const port = 3000;
+app.post("/signin",async(req,res)=>{
+    const email = req.body.email;
+    const password =req.body.password
+    const checkUserExists = await UserProfileSchema.findOne({email:email});
+    if (!checkUserExists){
+        return res.status(400).json({
+            "msg" : "username doesnt exists",
+        });
+    }
+    
+    var token = jwt.sign({username:email},jwtPassword)
+    return res.json({"tkn":token})
+
+})
+async function getUsers(){  
+    try{
+        const users  =await UserProfileSchema.find({})
+        return users
+    }
+    catch(err){
+        return []
+    }
+
+}
+  app.get("/users",async (req,res)=>{
+    const token = req.headers.authorization
+    // console.log(token)
+    try{
+        //console.log("getting users")
+        const decoded = jwt.verify(token,jwtPassword)
+        // console.log(decoded)
+        //const email = decoded.email
+        const  users = await getUsers()
+        res.status(200).json({users})
+
+    }
+    catch(err){
+        return res.status(403).json({
+            msg:'Invalid Token'
+        })
+    }
+})
+
+const port = 3000;   
 app.listen(port,()=>{
     console.log(`Server is running on ${port}`)
-});
+});      
