@@ -39,8 +39,6 @@ app.get("/",function(req,res){
     })
 })
 
-app.listen(3000);
-
 //post to add data on db
 app.post("/",function(req,res){
     const isHealthy = req.body.isHealthy;
@@ -96,3 +94,8 @@ app.delete("/",function(req,res){
         res.status(411).json({msg: "You have no tatti kidney"})
     }
 })
+
+const port =3000;
+app.listen(port,()=>{
+    console.log("hospital server running on"+ `${port}`)
+});
