@@ -1,19 +1,17 @@
 
-//imported express,jasonwebtoken and mongoose library 
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"); //imported mongoose library 
 const jwtPassword = "123456"
-//initializes an Express application and configures it to use the express.json() middleware.
-//This middleware is used to parse JSON bodies in incoming requests.
+
 const app = express();
 app.use(express.json());
 
-
 //connected mongoose with our database
-mongoose.connect("mongodb+srv://tanmay2020anand:iI4PZZTjNZ7GSccG@cluster0.fuh7nkb.mongodb.net/");
+mongoose.connect("mongodb+srv://tanmay2020anand:iI4PZZTjNZ7GSccG@cluster0.fuh7nkb.mongodb.net/"); 
 
-//defined the format of evry user we are sending in
+
+//defined schema
 const UserProfileSchema = mongoose.model("user", {
   name: String,
   email: String,
@@ -41,6 +39,7 @@ app.post("/signup", async function (req, res) {
 
     //else case->
     //we made a new user object and then saved it
+    try{
     const user = new UserProfileSchema({
         name: name,
         email : email,
@@ -48,14 +47,14 @@ app.post("/signup", async function (req, res) {
     });
 
     //another try and catch for saving , if ever it faces problem would be easier to detect
-    try{
+    
         user.save();
         res.json({
             "msg" : "user saved successfully",
         })
     }catch{
         res.json({
-            "msg" : "problem in saving",
+            "msg" : "problem in creating user or saving",
         })
     }
     

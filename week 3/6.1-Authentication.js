@@ -1,13 +1,12 @@
 
-//imported express and jwt and made password by ourself
+//imported express and jwt library and made password by ourself
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const jwtPassword = "123456";
 
-//initializes an Express application and configures it to use the express.json() middleware.
-//This middleware is used to parse JSON bodies in incoming requests.
-const app = express();
-app.use(express.json());
+
+const app = express(); //initializes an Express application
+app.use(express.json()); //configures it to use the express.json() middleware who parses JSON bodies in incoming requests
 
 //array of object : our in memory db
 const ALL_USERS = [
@@ -50,19 +49,19 @@ app.post("/signin", function (req, res) {
   var token = jwt.sign({ username: username }, jwtPassword);
 
   return res.status(200).json({
-    token
+    "current token" : token
   });
 });
 
 app.get("/users", function (req, res) {
   // retrive token from header
   const token = req.headers.authorization;
-  console.log("token is: "+token);
-  //run this part , if face error run catch part
+  //console.log("token is: "+token);
+  //try catch => if try part face any error , it will switch to catch part
   
   try {
     const decoded = jwt.verify(token, jwtPassword);
-    console.log(decoded);
+    //console.log(decoded);
     const username = decoded.username;
     // return a list of users other than this username
     res.json({
